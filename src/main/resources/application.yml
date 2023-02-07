@@ -1,1 +1,29 @@
+server:
+  port: 8020
+  servlet:
+    context-path: /voting-api
+
+spring:
+  application:
+    name: voting-api
+  banner:
+    location: classpath:/banner/bannername.txt
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_BASE:db_voting}?useTimezone=true&serverTimezone=America/Belem&createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:toor}
+    hikari:
+      pool-name: HikariCP
+      minimum-idle: 5
+      maximum-pool-size: 30
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+    properties.hibernate.format_sql: true
+
 
