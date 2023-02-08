@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table-user
+      author: maike.bressan
+      changes:
+        - sqlFile:
+            path: v1/user/create_table-user.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: create_table-voting_agenda.sql
+      author: maike.bressan
+      changes:
+        - sqlFile:
+            path: v1/votingagenda/create_table-voting_agenda.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: create_table-voting.sql
+      author: maike.bressan
+      changes:
+        - sqlFile:
+            path: v1/votingagenda/create_table-voting.sql
+            relativeToChangelogFile: true

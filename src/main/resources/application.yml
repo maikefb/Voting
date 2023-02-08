@@ -25,5 +25,10 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
     properties.hibernate.format_sql: true
+  liquibase:
+    default-schema: ${DB_BASE:db_voting}
+    change-log: classpath:/liquibase/liquibase-changelog.yml
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
 
 
