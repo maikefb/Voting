@@ -2,6 +2,19 @@ server:
   port: 8020
   servlet:
     context-path: /voting-api
+  error:
+    include-message: ALWAYS
+    include-stacktrace: NEVER
+
+voting.common:
+  api:
+    swagger:
+      app-name: API Voting
+      app-version: 1.0
+      app-description: API que facilita a criação de votações
+      app-host: ${APPLICATION_HOST:}
+      base-package: com.github.voting
+      enable: true
 
 spring:
   application:

@@ -4,47 +4,47 @@ databaseChangeLog:
       author: maike.bressan
       changes:
         - sqlFile:
-            path: v1/user/create_table-user.sql
+            path: user/create_table-user.sql
             relativeToChangelogFile: true
   - changeSet:
       id: create_table-voting_agenda
       author: maike.bressan
       changes:
         - sqlFile:
-            path: v1/votingagenda/create_table-voting_agenda.sql
+            path: votingagenda/create_table-voting_agenda.sql
             relativeToChangelogFile: true
   - changeSet:
       id: create_table-voting
       author: maike.bressan
       changes:
         - sqlFile:
-            path: v1/voting/create_table-voting.sql
+            path: voting/create_table-voting.sql
             relativeToChangelogFile: true
   - changeSet:
       id: alter-table-voting_agenda-add-voting_time
       author: maike.bressan
       changes:
         - sqlFile:
-            path: v1/votingagenda/alter-table-voting_agenda-add-voting_time.sql
+            path: votingagenda/alter-table-voting_agenda-add-voting_time.sql
             relativeToChangelogFile: true
   - changeSet:
       id: alter-table-voting_agenda-add-start_vote
       author: maike.bressan
       changes:
         - sqlFile:
-            path: v1/votingagenda/alter-table-voting_agenda-add-start_vote.sql
+            path: votingagenda/alter-table-voting_agenda-add-start_vote.sql
             relativeToChangelogFile: true
   - changeSet:
       id: alter-table-voting_agenda-add-finalize_vote
       author: maike.bressan
       changes:
         - sqlFile:
-            path: v1/votingagenda/alter-table-voting_agenda-add-finalize_vote.sql
+            path: votingagenda/alter-table-voting_agenda-add-finalize_vote.sql
             relativeToChangelogFile: true
   - changeSet:
       id: alter-table-voting_agenda-drop-was_voted
       author: maike.bressan
       changes:
         - sqlFile:
-            path: v1/votingagenda/alter-table-voting_agenda-drop-was_voted.sql
+            path: votingagenda/alter-table-voting_agenda-drop-was_voted.sql
             relativeToChangelogFile: true
