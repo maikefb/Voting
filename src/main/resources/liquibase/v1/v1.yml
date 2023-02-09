@@ -18,5 +18,5 @@ databaseChangeLog:
       author: maike.bressan
       changes:
         - sqlFile:
-            path: v1/votingagenda/create_table-voting.sql
+            path: v1/voting/create_table-voting.sql
             relativeToChangelogFile: true
