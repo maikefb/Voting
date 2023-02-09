@@ -27,9 +27,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Size(min = 11)
-    @Size(max = 18)
+    
+    @Size(min = 11, max = 18)
     @NotBlank
     private String cpfCnpj;
 
