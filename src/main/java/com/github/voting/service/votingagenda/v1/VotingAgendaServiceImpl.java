@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class VotingAgendaServiceImpl implements VotingAgendaService {
@@ -42,6 +44,26 @@ public class VotingAgendaServiceImpl implements VotingAgendaService {
         var votingAgenda = votingAgendaRepository.findById(id).get();  //TODO maike.bressan validar se o id existe
         votingAgendaMapper.mapVotingTime(votingAgenda, requestDto);
         votingAgendaRepository.save(votingAgenda);
+    }
+
+    @Override
+    public PaginationDto<VotingAgendaResponseDto> findOpenVotingSession(PageDto pageDto){
+        var currentDate = LocalDateTime.now();
+        Page<VotingAgenda> votingAgendaPage = votingAgendaRepository.findAllByStartVoteBeforeAndFinalizeVoteAfter(currentDate, currentDate, PaginationUtil.toPageableWithSort(pageDto));
+
+        var votingAgendaDtoList = votingAgendaMapper.mapVotingAgendaResponseDtoList(votingAgendaPage.getContent());
+
+        return PaginationUtil.toPaginationDtoWithContentMapping(votingAgendaPage, votingAgendaDtoList);
+    }
+
+    public PaginationDto<VotingAgendaResponseDto> findSessionEnd(PageDto pageDto){
+        var currentDate = LocalDateTime.now();
+        Page<VotingAgenda> votingAgendaPage = votingAgendaRepository.findAllByFinalizeVoteBefore(currentDate, PaginationUtil.toPageableWithSort(pageDto));
+        //TODO maike.bressan Contar os votos e atualizar no banco
+
+        var votingAgendaDtoList = votingAgendaMapper.mapVotingAgendaResponseDtoList(votingAgendaPage.getContent());
+
+        return PaginationUtil.toPaginationDtoWithContentMapping(votingAgendaPage, votingAgendaDtoList);
     }
 
 }

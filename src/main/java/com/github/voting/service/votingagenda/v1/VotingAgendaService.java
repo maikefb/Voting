@@ -13,4 +13,8 @@ public interface VotingAgendaService {
     PaginationDto<VotingAgendaResponseDto> findVotingSessions(String cpfCnpj, PageDto pageDto);
 
     void startVotingSession(Long id, VotingAgendaStartRequestDto requestDto);
+
+    PaginationDto<VotingAgendaResponseDto> findOpenVotingSession(PageDto pageDto);
+
+    PaginationDto<VotingAgendaResponseDto> findSessionEnd(PageDto pageDto);
 }

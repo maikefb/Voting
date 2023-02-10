@@ -22,10 +22,10 @@ public interface VotingAgendaApi  {
     void votingSession(@PathVariable Long id, VotingAgendaStartRequestDto requestDto);
 
     @ApiOperation(value = "Get session result", tags = "VotingAgenda")
-    void getSessionEnd();
+    PaginationDto<VotingAgendaResponseDto> getSessionEnd(PageDto pageDto);
 
     @ApiOperation(value = "Get open voting sessions", tags = "VotingAgenda")
-    void getOpenVotingSession();
+    PaginationDto<VotingAgendaResponseDto> getOpenVotingSession(PageDto pageDto);
 
     @ApiOperation(value = "Find my voting sessions", tags = "VotingAgenda")
     public PaginationDto<VotingAgendaResponseDto> getVotingSessions(String cpfCnpj, PageDto pageDto);

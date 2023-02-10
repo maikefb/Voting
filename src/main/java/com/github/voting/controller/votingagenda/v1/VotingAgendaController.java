@@ -32,14 +32,14 @@ public class VotingAgendaController implements VotingAgendaApi {
 
     @Override
     @GetMapping("/session-end")
-    public void getSessionEnd() {
-
+    public PaginationDto<VotingAgendaResponseDto> getSessionEnd(PageDto pageDto) {
+        return votingAgendaService.findSessionEnd(pageDto);
     }
 
     @Override
     @GetMapping("/session-open")
-    public void getOpenVotingSession() {
-
+    public PaginationDto<VotingAgendaResponseDto> getOpenVotingSession(PageDto pageDto) {
+        return votingAgendaService.findOpenVotingSession(pageDto);
     }
 
     @Override
