@@ -4,6 +4,7 @@ import com.github.voting.dto.PageDto;
 import com.github.voting.dto.PaginationDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaCreateRequestDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaResponseDto;
+import com.github.voting.dto.votingagenda.v1.VotingAgendaStartRequestDto;
 
 public interface VotingAgendaService {
 
@@ -11,4 +12,5 @@ public interface VotingAgendaService {
 
     PaginationDto<VotingAgendaResponseDto> findVotingSessions(String cpfCnpj, PageDto pageDto);
 
+    void startVotingSession(Long id, VotingAgendaStartRequestDto requestDto);
 }

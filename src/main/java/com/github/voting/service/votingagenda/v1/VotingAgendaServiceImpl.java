@@ -5,6 +5,7 @@ import com.github.voting.dto.PageDto;
 import com.github.voting.dto.PaginationDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaCreateRequestDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaResponseDto;
+import com.github.voting.dto.votingagenda.v1.VotingAgendaStartRequestDto;
 import com.github.voting.mapper.votingagenda.v1.VotingAgendaMapper;
 import com.github.voting.repository.votingagenda.v1.VotingAgendaRepository;
 import com.github.voting.service.user.v1.UserService;
@@ -27,12 +28,20 @@ public class VotingAgendaServiceImpl implements VotingAgendaService {
         votingAgendaRepository.save(votingAgendaMapper.mapNewVotingAgenda(requestDto, user));
     }
 
+    @Override
     public PaginationDto<VotingAgendaResponseDto> findVotingSessions(String cpfCnpj, PageDto pageDto){
         var user = userService.findByDocument(cpfCnpj);
         Page<VotingAgenda> votingAgendaPage = votingAgendaRepository.findAllByUser(user, PaginationUtil.toPageableWithSort(pageDto));
         var votingAgendaDtoList = votingAgendaMapper.mapVotingAgendaResponseDtoList(votingAgendaPage.getContent());
 
         return PaginationUtil.toPaginationDtoWithContentMapping(votingAgendaPage, votingAgendaDtoList);
+    }
+
+    @Override
+    public void startVotingSession(Long id, VotingAgendaStartRequestDto requestDto){
+        var votingAgenda = votingAgendaRepository.findById(id).get();  //TODO maike.bressan validar se o id existe
+        votingAgendaMapper.mapVotingTime(votingAgenda, requestDto);
+        votingAgendaRepository.save(votingAgenda);
     }
 
 }

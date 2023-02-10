@@ -21,8 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByDocument(String cpfCnpj){
-        var user = userRepository.findBycpfCnpj(cpfCnpj).get();
-        //TODO maike.bressan validar se o cpf existe
+        var user = userRepository.findBycpfCnpj(cpfCnpj).get(); //TODO maike.bressan validar se o cpf existe
         return user;
     }
 }

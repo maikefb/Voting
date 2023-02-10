@@ -4,8 +4,10 @@ import com.github.voting.dto.PageDto;
 import com.github.voting.dto.PaginationDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaCreateRequestDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaResponseDto;
+import com.github.voting.dto.votingagenda.v1.VotingAgendaStartRequestDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
@@ -17,7 +19,7 @@ public interface VotingAgendaApi  {
     void create(@RequestBody @Valid VotingAgendaCreateRequestDto requestDto);
 
     @ApiOperation(value = "Start a voting session", tags = "VotingAgenda")
-    void votingSession();
+    void votingSession(@PathVariable Long id, VotingAgendaStartRequestDto requestDto);
 
     @ApiOperation(value = "Get session result", tags = "VotingAgenda")
     void getSessionEnd();

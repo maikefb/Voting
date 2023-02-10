@@ -4,6 +4,7 @@ import com.github.voting.dto.PageDto;
 import com.github.voting.dto.PaginationDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaCreateRequestDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaResponseDto;
+import com.github.voting.dto.votingagenda.v1.VotingAgendaStartRequestDto;
 import com.github.voting.service.votingagenda.v1.VotingAgendaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,9 @@ public class VotingAgendaController implements VotingAgendaApi {
     }
 
     @Override
-    @PutMapping
-    public void votingSession() {
-
+    @PutMapping("{id}")
+    public void votingSession(@PathVariable Long id, VotingAgendaStartRequestDto requestDto) {
+        votingAgendaService.startVotingSession(id, requestDto);
     }
 
     @Override
