@@ -40,6 +40,8 @@ public class VotingAgenda {
 
     private LocalDateTime finalizeVote;
 
+    private Boolean wasCounted;
+
     private Boolean wasApproved;
 
     @NotNull

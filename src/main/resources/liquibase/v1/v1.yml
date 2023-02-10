@@ -48,3 +48,10 @@ databaseChangeLog:
         - sqlFile:
             path: votingagenda/alter-table-voting_agenda-drop-was_voted.sql
             relativeToChangelogFile: true
+  - changeSet:
+      id: alter-table-voting_agenda-add-was_counted
+      author: maike.bressan
+      changes:
+        - sqlFile:
+            path: votingagenda/alter-table-voting_agenda-add-was_counted.sql
+            relativeToChangelogFile: true
