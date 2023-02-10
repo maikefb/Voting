@@ -9,8 +9,4 @@ public interface UserApi {
     @ApiOperation(value = "Create New User", tags = "Users")
     void create();
 
-
-
-
-
 }

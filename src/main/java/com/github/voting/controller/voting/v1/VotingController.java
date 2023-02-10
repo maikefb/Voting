@@ -1,4 +1,4 @@
-package com.github.voting.controller.user.v1;
+package com.github.voting.controller.voting.v1;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/user")
-public class UserController implements UserApi{
+@RequestMapping("/v1/voting")
+public class VotingController implements VotingApi {
 
     @Override
     @PostMapping
-    public void create() {
+    public void vote() {
 
     }
 }
