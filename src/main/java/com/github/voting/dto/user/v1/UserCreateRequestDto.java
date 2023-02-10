@@ -1,4 +1,4 @@
-package com.github.voting.dto.user;
+package com.github.voting.dto.user.v1;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

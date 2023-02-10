@@ -1,6 +1,6 @@
 package com.github.voting.controller.user.v1;
 
-import com.github.voting.dto.user.UserCreateRequestDto;
+import com.github.voting.dto.user.v1.UserCreateRequestDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
