@@ -6,6 +6,7 @@ import com.github.voting.dto.PaginationDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaCreateRequestDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaResponseDto;
 import com.github.voting.dto.votingagenda.v1.VotingAgendaStartRequestDto;
+import com.github.voting.exception.NotFoundException;
 import com.github.voting.mapper.votingagenda.v1.VotingAgendaMapper;
 import com.github.voting.repository.votingagenda.v1.VotingAgendaRepository;
 import com.github.voting.service.user.v1.UserService;
@@ -19,6 +20,8 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class VotingAgendaServiceImpl implements VotingAgendaService {
+
+    private static final String ERROR_VOTING_AGENDA_NOT_FOUND = "VotingAgenda não encontrada!";
 
     private final VotingAgendaRepository votingAgendaRepository;
     private final VotingAgendaMapper votingAgendaMapper;
@@ -41,7 +44,7 @@ public class VotingAgendaServiceImpl implements VotingAgendaService {
 
     @Override
     public void startVotingSession(Long id, VotingAgendaStartRequestDto requestDto){
-        var votingAgenda = votingAgendaRepository.findById(id).get();  //TODO maike.bressan validar se o id existe
+        var votingAgenda = votingAgendaRepository.findById(id).orElseThrow(() -> new NotFoundException(ERROR_VOTING_AGENDA_NOT_FOUND));
         votingAgendaMapper.mapVotingTime(votingAgenda, requestDto);
         votingAgendaRepository.save(votingAgenda);
     }
@@ -56,6 +59,7 @@ public class VotingAgendaServiceImpl implements VotingAgendaService {
         return PaginationUtil.toPaginationDtoWithContentMapping(votingAgendaPage, votingAgendaDtoList);
     }
 
+    @Override
     public PaginationDto<VotingAgendaResponseDto> findSessionEnd(PageDto pageDto){
         var currentDate = LocalDateTime.now();
         Page<VotingAgenda> votingAgendaPage = votingAgendaRepository.findAllByFinalizeVoteBefore(currentDate, PaginationUtil.toPageableWithSort(pageDto));
@@ -64,6 +68,13 @@ public class VotingAgendaServiceImpl implements VotingAgendaService {
         var votingAgendaDtoList = votingAgendaMapper.mapVotingAgendaResponseDtoList(votingAgendaPage.getContent());
 
         return PaginationUtil.toPaginationDtoWithContentMapping(votingAgendaPage, votingAgendaDtoList);
+    }
+
+    @Override
+    public VotingAgenda findOpenVotingSessionById(Long id){
+        var currentDate = LocalDateTime.now();
+        return votingAgendaRepository.findByIdAndStartVoteBeforeAndFinalizeVoteAfter(id, currentDate, currentDate ).orElseThrow(() -> new NotFoundException(ERROR_VOTING_AGENDA_NOT_FOUND));
+
     }
 
 }

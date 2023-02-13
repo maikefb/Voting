@@ -16,6 +16,8 @@ public interface VotingAgendaRepository extends JpaRepository<VotingAgenda, Long
 
     Page<VotingAgenda> findAllByStartVoteBeforeAndFinalizeVoteAfter(LocalDateTime startVoteDate, LocalDateTime finalizeVoteDate, Pageable pageable);
 
+    Optional<VotingAgenda> findByIdAndStartVoteBeforeAndFinalizeVoteAfter(Long id, LocalDateTime startVoteDate, LocalDateTime finalizeVoteDate);
+
     Page<VotingAgenda> findAllByFinalizeVoteBefore(LocalDateTime finalizeVoteDate, Pageable pageable);
 
     @Override
