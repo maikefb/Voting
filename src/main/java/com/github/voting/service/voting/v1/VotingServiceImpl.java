@@ -4,13 +4,15 @@ import com.github.voting.domain.voting.Voting;
 import com.github.voting.domain.votingagenda.VotingAgenda;
 import com.github.voting.dto.voting.v1.VotingCreateRequestDto;
 import com.github.voting.exception.BusinessException;
+import com.github.voting.exception.NotFoundException;
 import com.github.voting.mapper.voting.v1.VotingMapper;
 import com.github.voting.repository.voting.v1.VotingRepository;
+import com.github.voting.repository.votingagenda.v1.VotingAgendaRepository;
 import com.github.voting.service.user.v1.UserService;
-import com.github.voting.service.votingagenda.v1.VotingAgendaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,17 +24,20 @@ import static java.lang.Boolean.TRUE;
 public class VotingServiceImpl implements VotingService {
 
     private static final String ERROR_USER_ALREADY_VOTED = "O usuário já votou nessa pauta!";
-
+    private static final String ERROR_VOTING_AGENDA_NOT_FOUND = "VotingAgenda não encontrada!";
 
     private final VotingRepository votingRepository;
+    private final VotingAgendaRepository votingAgendaRepository;
     private final UserService userService;
-    private final VotingAgendaService votingAgendaService;
     private final VotingMapper votingMapper;
+
 
     @Override
     public void create(VotingCreateRequestDto requestDto) {
-        var votingAgenda = votingAgendaService.findOpenVotingSessionById(requestDto.getVotingAgendaId());
+        var currentDate = LocalDateTime.now();
         existsVote(requestDto.userDocument, requestDto.votingAgendaId);
+        var votingAgenda = votingAgendaRepository.findByIdAndStartVoteBeforeAndFinalizeVoteAfter(requestDto.votingAgendaId, currentDate, currentDate )
+                .orElseThrow(() -> new NotFoundException(ERROR_VOTING_AGENDA_NOT_FOUND));
         var user = userService.findByDocument(requestDto.getUserDocument());
         votingRepository.save(votingMapper.mapNewVoting(requestDto, votingAgenda, user));
     }

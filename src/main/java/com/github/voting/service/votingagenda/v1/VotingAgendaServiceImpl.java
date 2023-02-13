@@ -10,22 +10,29 @@ import com.github.voting.exception.NotFoundException;
 import com.github.voting.mapper.votingagenda.v1.VotingAgendaMapper;
 import com.github.voting.repository.votingagenda.v1.VotingAgendaRepository;
 import com.github.voting.service.user.v1.UserService;
+import com.github.voting.service.voting.v1.VotingService;
 import com.github.voting.util.PaginationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 @Service
 @RequiredArgsConstructor
 public class VotingAgendaServiceImpl implements VotingAgendaService {
 
     private static final String ERROR_VOTING_AGENDA_NOT_FOUND = "VotingAgenda não encontrada!";
+    private static final Boolean WAS_NOT_COUNTED = FALSE;
 
     private final VotingAgendaRepository votingAgendaRepository;
     private final VotingAgendaMapper votingAgendaMapper;
     private final UserService userService;
+    private final VotingService votingService;
 
     @Override
     public void create(VotingAgendaCreateRequestDto requestDto) {
@@ -34,11 +41,12 @@ public class VotingAgendaServiceImpl implements VotingAgendaService {
     }
 
     @Override
+    @Transactional
     public PaginationDto<VotingAgendaResponseDto> findVotingSessions(String cpfCnpj, PageDto pageDto){
         var user = userService.findByDocument(cpfCnpj);
+        countVotes();
         Page<VotingAgenda> votingAgendaPage = votingAgendaRepository.findAllByUser(user, PaginationUtil.toPageableWithSort(pageDto));
         var votingAgendaDtoList = votingAgendaMapper.mapVotingAgendaResponseDtoList(votingAgendaPage.getContent());
-
         return PaginationUtil.toPaginationDtoWithContentMapping(votingAgendaPage, votingAgendaDtoList);
     }
 
@@ -60,21 +68,25 @@ public class VotingAgendaServiceImpl implements VotingAgendaService {
     }
 
     @Override
+    @Transactional
     public PaginationDto<VotingAgendaResponseDto> findSessionEnd(PageDto pageDto){
         var currentDate = LocalDateTime.now();
+        countVotes();
         Page<VotingAgenda> votingAgendaPage = votingAgendaRepository.findAllByFinalizeVoteBefore(currentDate, PaginationUtil.toPageableWithSort(pageDto));
-        //TODO maike.bressan Contar os votos e atualizar no banco
-
         var votingAgendaDtoList = votingAgendaMapper.mapVotingAgendaResponseDtoList(votingAgendaPage.getContent());
-
         return PaginationUtil.toPaginationDtoWithContentMapping(votingAgendaPage, votingAgendaDtoList);
     }
 
-    @Override
-    public VotingAgenda findOpenVotingSessionById(Long id){
+    private void countVotes(){
         var currentDate = LocalDateTime.now();
-        return votingAgendaRepository.findByIdAndStartVoteBeforeAndFinalizeVoteAfter(id, currentDate, currentDate ).orElseThrow(() -> new NotFoundException(ERROR_VOTING_AGENDA_NOT_FOUND));
+        var votingAgendaList = votingAgendaRepository.findAllByFinalizeVoteBeforeAndWasCounted(currentDate, WAS_NOT_COUNTED);
+        votingAgendaList.forEach(agenda ->
+        {
+            agenda.setWasCounted(TRUE);
+            agenda.setWasApproved(votingService.isApproved(agenda));
 
+        });
+        votingAgendaRepository.saveAll(votingAgendaList);
     }
 
 }
