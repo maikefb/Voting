@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class VotingAgendaStartRequestDto {
 
     @ApiModelProperty(notes = "How long will the voting session be open", example = "60")
-    public int votingTime;
+    public Integer votingTime;
 
 }

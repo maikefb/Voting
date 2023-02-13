@@ -32,7 +32,7 @@ public class VotingAgendaMapper {
     }
 
     public void mapVotingTime(VotingAgenda entity, VotingAgendaStartRequestDto requestDto){
-        entity.setVotingTime(nonNull(requestDto.votingTime) ? requestDto.getVotingTime() : DEFAULT_VOTE_TIME);
+        entity.setVotingTime(nonNull(requestDto.getVotingTime()) && requestDto.getVotingTime() != 0 ? requestDto.getVotingTime() : DEFAULT_VOTE_TIME);
         entity.setStartVote(LocalDateTime.now());
         entity.setFinalizeVote(entity.getStartVote().plusMinutes(entity.getVotingTime()));
     }

@@ -53,8 +53,4 @@ public class VotingServiceImpl implements VotingService {
         if (votingRepository.existsByUserCpfCnpjAndVotingAgendaId(userDocument, votingAgendaId))
             throw new BusinessException(ERROR_USER_ALREADY_VOTED);
     }
-
-
-
-
 }
