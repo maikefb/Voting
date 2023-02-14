@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.caelum.stella.bean.validation.CPF;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class User {
     private Long id;
     
     @Size(min = 11, max = 18)
+    @CPF
     @NotBlank
     private String cpfCnpj;
 
