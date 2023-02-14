@@ -43,8 +43,8 @@ public class VotingAgendaServiceImpl implements VotingAgendaService {
     @Override
     @Transactional
     public PaginationDto<VotingAgendaResponseDto> findVotingSessions(String cpfCnpj, PageDto pageDto){
-        var user = userService.findByDocument(cpfCnpj);
         countVotes();
+        var user = userService.findByDocument(cpfCnpj);
         Page<VotingAgenda> votingAgendaPage = votingAgendaRepository.findAllByUser(user, PaginationUtil.toPageableWithSort(pageDto));
         var votingAgendaDtoList = votingAgendaMapper.mapVotingAgendaResponseDtoList(votingAgendaPage.getContent());
         return PaginationUtil.toPaginationDtoWithContentMapping(votingAgendaPage, votingAgendaDtoList);
