@@ -47,5 +47,3 @@ spring:
 logging.level:
   org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
   org.hibernate.type.descriptor.sql.BasicBinder: DEBUG
-
-
