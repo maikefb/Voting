@@ -1,5 +1,7 @@
 package com.github.voting.config;
 
+import com.github.voting.property.VotingProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -14,8 +16,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class SwaggerDocConfig implements WebMvcConfigurer {
 
+    private final VotingProperties votingProperties;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -40,9 +44,9 @@ public class SwaggerDocConfig implements WebMvcConfigurer {
     private ApiInfo getApiInfo() {
 
         return new ApiInfoBuilder()
-                .title("Swagger API Doc")
-                .description("More description about the API")
-                .version("1.0.0")
+                .title(votingProperties.getSwagger().getAppName())
+                .description(votingProperties.getSwagger().getAppDescription())
+                .version(votingProperties.getSwagger().getAppVersion())
                 .build();
     }
 }

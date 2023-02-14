@@ -44,4 +44,8 @@ spring:
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
 
+logging.level:
+  org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  org.hibernate.type.descriptor.sql.BasicBinder: DEBUG
+
 

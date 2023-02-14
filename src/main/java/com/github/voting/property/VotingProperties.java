@@ -20,8 +20,5 @@ public class VotingProperties {
 
         private String appDescription;
 
-        private String appHost;
-
-        private String basePackage;
     }
 }
