@@ -26,7 +26,7 @@ import static java.lang.Boolean.TRUE;
 @RequiredArgsConstructor
 public class VotingAgendaServiceImpl implements VotingAgendaService {
 
-    private static final String ERROR_VOTING_AGENDA_NOT_FOUND = "VotingAgenda não encontrada!";
+    private static final String ERROR_VOTING_AGENDA_NOT_FOUND = "Pauta de votação não encontrada!";
     private static final Boolean WAS_NOT_COUNTED = FALSE;
 
     private final VotingAgendaRepository votingAgendaRepository;

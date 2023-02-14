@@ -18,13 +18,15 @@ import java.util.stream.Collectors;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor
 public class VotingServiceImpl implements VotingService {
 
     private static final String ERROR_USER_ALREADY_VOTED = "O usuário já votou nessa pauta!";
-    private static final String ERROR_VOTING_AGENDA_NOT_FOUND = "VotingAgenda não encontrada!";
+    private static final String ERROR_VOTING_AGENDA_NOT_FOUND = "Pauta de votação não encontrada!";
 
     private final VotingRepository votingRepository;
     private final VotingAgendaRepository votingAgendaRepository;
@@ -46,6 +48,13 @@ public class VotingServiceImpl implements VotingService {
     public boolean isApproved(VotingAgenda votingAgenda){
         List<Voting> votings = votingRepository.findAllByVotingAgenda(votingAgenda);
         var resultVotings = votings.stream().collect(Collectors.groupingBy(Voting::getWasApproved, Collectors.counting()));
+
+        if (isNull(resultVotings.get(FALSE)) && nonNull(resultVotings.get(TRUE)))
+            return TRUE;
+
+        if (isNull(resultVotings.get(TRUE)) && nonNull(resultVotings.get(FALSE)))
+            return FALSE;
+
         return  resultVotings.get(TRUE) > resultVotings.get(FALSE);
     }
 

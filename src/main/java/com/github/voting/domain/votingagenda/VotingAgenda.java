@@ -34,7 +34,7 @@ public class VotingAgenda {
     @NotBlank
     private String description;
 
-    private int votingTime;
+    private Integer votingTime;
 
     private LocalDateTime startVote;
 
